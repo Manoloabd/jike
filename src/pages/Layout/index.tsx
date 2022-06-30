@@ -1,12 +1,13 @@
 import React from 'react'
-
+import Icon from '@/components/Icon'
 export default function index() {
   return (
     <div>
-      <svg className='icon' aria-hidden='true'>
-        xlinkHref指的是 字体图标的类型
-        <use xlinkHref='#iconbtn_like_sel' />
-      </svg>
+      <Icon
+        className='my-icon'
+        type='iconbtn_home_sel'
+        onClick={() => alert(123)}
+      ></Icon>
     </div>
   )
 }
