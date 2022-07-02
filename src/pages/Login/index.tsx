@@ -1,8 +1,12 @@
 import { Button, NavBar, Form, Input } from 'antd-mobile'
-
+import { LoginForm } from '@/types/data'
 import styles from './index.module.scss'
 
 const Login = () => {
+  const onFinish = (values: LoginForm) => {
+    console.log(values)
+  }
+
   return (
     <div className={styles.root}>
       <NavBar></NavBar>
@@ -10,17 +14,14 @@ const Login = () => {
       <div className='login-form'>
         <h2 className='title'>账号登录</h2>
 
-        <Form>
+        <Form onFinish={onFinish}>
           {/* 1.手机号必填 2.校验手机号格式 */}
           <Form.Item
             name='mobile'
             validateTrigger='onBlur'
             rules={[
               { required: true, message: '请输入手机号' },
-              {
-                pattern: /^1[3-9]\d{9}$/,
-                message: '手机号格式错误',
-              },
+              { pattern: /^1[3-9]\d{9}$/, message: '手机号格式错误' },
             ]}
             className='login-item'
           >
