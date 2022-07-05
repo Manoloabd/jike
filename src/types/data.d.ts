@@ -6,7 +6,14 @@ export type Token = {
     refresh_token:string
 }
  
+//定义一个提交表单的类型
 export type LoginForm = {
     mobile: string,
     code: string
+}
+
+//定义一个登录接口返回的数据结构
+export type LoginResponse = {
+    message: string,
+    data: Token
 }
