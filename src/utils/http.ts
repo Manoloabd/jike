@@ -19,8 +19,8 @@ http.interceptors.request.use(config => {
 }, error => Promise.reject(error))
 
 //响应拦截器
-http.interceptors.response.use(response => {
-  response.data ? response.data : {}
+http.interceptors.response.use((response) => {
+  return response.data ? response.data : {}
 }, error => {
   if (error.response.status === 401) {
     Toast.show({

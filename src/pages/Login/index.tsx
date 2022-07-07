@@ -1,10 +1,26 @@
-import { Button, NavBar, Form, Input } from 'antd-mobile'
+import { Button, NavBar, Form, Input, Toast } from 'antd-mobile'
+import { login } from '@/store/actions/login'
 import { LoginForm } from '@/types/data'
+import { useDispatch } from 'react-redux'
+
+import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
 
 const Login = () => {
-  const onFinish = (values: LoginForm) => {
-    console.log(values)
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const onFinish = async (values: LoginForm) => {
+    // login()
+    await dispatch(login(values)) // 触发登录的action  thunk
+    // 此时表示分发action成功 登录成功
+    // 跳转到主页
+    Toast.show({
+      content: '登录成功',
+      duration: 500,
+      afterClose: () => {
+        history.replace('/home') // 调到主页
+      },
+    })
   }
 
   return (
