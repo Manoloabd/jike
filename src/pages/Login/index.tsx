@@ -5,22 +5,30 @@ import { useDispatch } from 'react-redux'
 
 import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
+import { AxiosError } from 'axios'
 
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const onFinish = async (values: LoginForm) => {
     // login()
-    await dispatch(login(values)) // 触发登录的action  thunk
-    // 此时表示分发action成功 登录成功
-    // 跳转到主页
-    Toast.show({
-      content: '登录成功',
-      duration: 500,
-      afterClose: () => {
-        history.replace('/home') // 调到主页
-      },
-    })
+    try {
+      await dispatch(login(values)) // 触发登录的action  thunk
+      // 此时表示分发action成功 登录成功
+      // 跳转到主页
+      Toast.show({
+        content: '登录成功',
+        duration: 500,
+        afterClose: () => {
+          history.replace('/home') // 调到主页
+        },
+      })
+    } catch (error) {
+      const e = error as AxiosError<{ message: string }>
+      Toast.show({
+        content: e.response?.data.message,
+      })
+    }
   }
 
   return (
