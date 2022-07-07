@@ -1,10 +1,9 @@
 //reducer函数 根据输入的类型参数 返回特定的结果
 import { Token } from '@/types/data'
 import { LoginAction } from '@/types/store';
-const initialState: Token =  {
-    token: "",
-    refresh_token:""
-}
+import { getToken } from '@/utils/auth';
+
+const initialState: Token =  getToken()
 
 export default function Login(state = initialState, action:LoginAction):Token {
     switch (action.type) {
