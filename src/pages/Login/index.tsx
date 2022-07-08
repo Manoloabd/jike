@@ -7,6 +7,7 @@ import styles from './index.module.scss'
 import { AxiosError } from 'axios'
 import { Ref, useRef } from 'react'
 import { InputRef } from 'antd-mobile/es/components/input'
+import { sendCode } from '@/store/actions/login'
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -34,7 +35,7 @@ const Login = () => {
     }
   }
   //发送验证码
-  const onSendCode = () => {
+  const onSendCode = async () => {
     const mobile = (form.getFieldValue('mobile') || '') as string
     const isError = !!form.getFieldError('mobile').length as boolean
     //手机号码不正确
@@ -42,7 +43,19 @@ const Login = () => {
       mobileRef.current?.focus()
       return
     }
-    //真确
+    try {
+      //真确
+      //发送验证码
+      await dispatch(sendCode(mobile))
+      Toast.show({
+        content: '验证码已发送',
+      })
+    } catch (error) {
+      const e = error as AxiosError<{ message: string }>
+      Toast.show({
+        content: e.response?.data?.message,
+      })
+    }
   }
 
   return (

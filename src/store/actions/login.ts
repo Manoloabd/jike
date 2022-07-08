@@ -16,3 +16,11 @@ export const  login = (loginParams: LoginForm): RootThunkAction => {
     }
 
 }
+
+//发送验证码的
+export const sendCode = (mobile: string): RootThunkAction => {
+  return async dispatch => {
+    return http.get(`/sms/codes/${mobile}`)
+  }
+
+}
