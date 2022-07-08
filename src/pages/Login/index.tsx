@@ -5,11 +5,13 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
 import { AxiosError } from 'axios'
-
+import { Ref, useRef } from 'react'
+import { InputRef } from 'antd-mobile/es/components/input'
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [form] = Form.useForm() // 直接使用useForm得到一个form实例对象
+  const mobileRef = useRef<InputRef>(null) //如果不给泛型，传入的就是一个undifine
 
   const onFinish = async (values: LoginForm) => {
     // login()
@@ -31,6 +33,17 @@ const Login = () => {
       })
     }
   }
+  //发送验证码
+  const onSendCode = () => {
+    const mobile = (form.getFieldValue('mobile') || '') as string
+    const isError = !!form.getFieldError('mobile').length as boolean
+    //手机号码不正确
+    if (isError || mobile.trim() === '') {
+      mobileRef.current?.focus()
+      return
+    }
+    //真确
+  }
 
   return (
     <div className={styles.root}>
@@ -51,7 +64,7 @@ const Login = () => {
             ]}
             className='login-item'
           >
-            <Input placeholder='请输入手机号' />
+            <Input ref={mobileRef} placeholder='请输入手机号' />
           </Form.Item>
           {/* 1.验证码必填 2.校验验证码格式 */}
           <Form.Item
@@ -62,7 +75,11 @@ const Login = () => {
               { pattern: /^\d{6}$/, message: '验证码格式不正确' },
             ]}
             className='login-item'
-            extra={<span className='code-extra'>发送验证码</span>}
+            extra={
+              <span className='code-extra' onClick={onSendCode}>
+                发送验证码
+              </span>
+            }
           >
             <Input placeholder='请输入验证码' autoComplete='off' />
           </Form.Item>
