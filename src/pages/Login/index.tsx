@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
 import { AxiosError } from 'axios'
-import { Ref, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { InputRef } from 'antd-mobile/es/components/input'
 import { sendCode } from '@/store/actions/login'
 const Login = () => {
@@ -13,7 +13,8 @@ const Login = () => {
   const history = useHistory()
   const [form] = Form.useForm() // 直接使用useForm得到一个form实例对象
   const mobileRef = useRef<InputRef>(null) //如果不给泛型，传入的就是一个undifine
-
+  const timeRef = useRef(-1) //用ref的current来记录计时器
+  const [timeLeft, setTimeLeft] = useState(0)
   const onFinish = async (values: LoginForm) => {
     // login()
     try {
@@ -50,6 +51,10 @@ const Login = () => {
       Toast.show({
         content: '验证码已发送',
       })
+      setTimeLeft(60)
+      timeRef.current = window.setInterval(() => {
+        setTimeLeft((timeLeft) => timeLeft - 1)
+      }, 1000)
     } catch (error) {
       const e = error as AxiosError<{ message: string }>
       Toast.show({
@@ -57,7 +62,18 @@ const Login = () => {
       })
     }
   }
-
+  useEffect(() => {
+    console.log('发生变化', timeLeft)
+    if (timeLeft === 0) {
+      window.clearInterval(timeRef.current)
+    }
+  }, [timeLeft])
+  useEffect(() => {
+    //只有空数组的情况 return会在卸载时执行
+    return () => {
+      window.clearInterval(timeRef.current)
+    }
+  }, [])
   return (
     <div className={styles.root}>
       <NavBar></NavBar>
@@ -89,8 +105,11 @@ const Login = () => {
             ]}
             className='login-item'
             extra={
-              <span className='code-extra' onClick={onSendCode}>
-                发送验证码
+              <span
+                className='code-extra'
+                onClick={timeLeft === 0 ? onSendCode : undefined}
+              >
+                {timeLeft === 0 ? '发送验证码' : `${timeLeft}后发送`}
               </span>
             }
           >
