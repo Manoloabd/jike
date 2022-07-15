@@ -13,10 +13,7 @@ export type LoginForm = {
 }
 
 //定义一个登录接口返回的数据结构
-export type LoginResponse = {
-    message: string,
-    data: Token
-}
+export type LoginResponse = ApiResponse<Token>
 //用户类型
 export type User = {
     id: string,
@@ -29,8 +26,9 @@ export type User = {
     like_count: number
 }
 
-export type UserResponse = {
-    message: string,
-    data: User
+export type UserResponse = ApiResponse<User>
 
+type ApiResponse<T> = {
+    message: string,
+    data: T
 }
