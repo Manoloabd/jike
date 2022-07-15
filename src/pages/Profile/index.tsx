@@ -2,22 +2,13 @@ import { Link, useHistory } from 'react-router-dom'
 
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useInitialState } from '@/utils/use-initial-state'
 import { getUser } from '@/store/actions/profile'
-import type { RootState } from '@/types/store'
+import type { User } from '@/types/data'
 
 const Profile = () => {
   const history = useHistory()
-  const dispatch = useDispatch() // 得到dispatch对象
-  // 使用useSelector获取redux中的状态
-  const User = useSelector((state: RootState) => state.profile.user)
-
-  useEffect(() => {
-    // 此时需要做数据的请求 触发action
-    dispatch(getUser()) // 调用action
-  }, []) // eslint-disable-line
-
+  const { user: User } = useInitialState(getUser, 'profile') as { user: User }
   return (
     <div className={styles.root}>
       <div className='profile'>
