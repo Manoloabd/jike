@@ -63,7 +63,6 @@ const Login = () => {
     }
   }
   useEffect(() => {
-    console.log('发生变化', timeLeft)
     if (timeLeft === 0) {
       window.clearInterval(timeRef.current)
     }

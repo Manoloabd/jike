@@ -17,3 +17,20 @@ export type LoginResponse = {
     message: string,
     data: Token
 }
+//用户类型
+export type User = {
+    id: string,
+    name: string,
+    photo: string,
+    intro: string,
+    art_count: number,
+    follow_count: number,
+    fans_count: number,
+    like_count: number
+}
+
+export type UserResponse = {
+    message: string,
+    data: User
+
+}
