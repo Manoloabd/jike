@@ -32,3 +32,14 @@ type ApiResponse<T> = {
     message: string,
     data: T
 }
+
+export type UserProfile = {
+    id: string,
+    name: string,
+    photo: string,
+    mobile: string,
+    gender: number,
+    birthday: string,
+    intro?: string
+}
+export type UserProfileResponse = ApiResponse<UserProfile>

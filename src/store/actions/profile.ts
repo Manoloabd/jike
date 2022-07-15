@@ -1,6 +1,6 @@
 import { RootThunkAction } from '@/types/store'
 import { http } from '@/utils/http'
-import { UserResponse } from '@/types/data'
+import { UserResponse, UserProfileResponse } from '@/types/data'
 // 做异步请求
 
 
@@ -15,4 +15,13 @@ export const getUser = (): RootThunkAction => {
 
     }
 
+}
+
+
+//获取用户资料
+export const getUserProfile = ():RootThunkAction => {
+    return async dispatch => {
+        const res = await http.get('/user/profile') as UserProfileResponse
+        dispatch({type:'user/getprofile',payload:res.data})
+    }
 }

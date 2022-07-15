@@ -1,7 +1,7 @@
 //处理redux相关的类型
 import store from '@/store'
 import { ThunkAction } from 'redux-thunk'
-import type { Token, User} from './data'
+import type { Token, User, UserProfile} from './data'
 
 export type RootState = ReturnType<typeof store.getState>
 
@@ -16,4 +16,7 @@ export type LoginAction = {
 export type UserAction = {
     type: 'user/getuser',
     payload: User
+} | {
+    type: 'user/getprofile',
+    payload: UserProfile
 }

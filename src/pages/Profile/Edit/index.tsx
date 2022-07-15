@@ -1,16 +1,27 @@
 import { Button, List, DatePicker, NavBar } from 'antd-mobile'
 import classNames from 'classnames'
-
+import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
-
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserProfile } from '@/store/actions/profile'
+import type { RootState } from '@/types/store'
 const Item = List.Item
 
 const ProfileEdit = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    // 调用action
+    dispatch(getUserProfile())
+  }, [])
+  const UserProfile = useSelector((state: RootState) => state.profile.profile)
   return (
     <div className={styles.root}>
       <div className='content'>
         {/* 标题 */}
         <NavBar
+          onBack={() => history.goBack()}
           style={{
             '--border-bottom': '1px solid #F0F0F0',
           }}
@@ -25,26 +36,21 @@ const ProfileEdit = () => {
             <Item
               extra={
                 <span className='avatar-wrapper'>
-                  <img
-                    width={24}
-                    height={24}
-                    src={'http://toutiao.itheima.net/images/user_head.jpg'}
-                    alt=''
-                  />
+                  <img width={24} height={24} src={UserProfile.photo} alt='' />
                 </span>
               }
               arrow
             >
               头像
             </Item>
-            <Item arrow extra={'黑马先锋'}>
+            <Item arrow extra={UserProfile.name}>
               昵称
             </Item>
             <Item
               arrow
               extra={
                 <span className={classNames('intro', 'normal')}>
-                  {'未填写'}
+                  {UserProfile.intro || '未填写'}
                 </span>
               }
             >
@@ -53,10 +59,10 @@ const ProfileEdit = () => {
           </List>
 
           <List className='profile-list'>
-            <Item arrow extra={'男'}>
+            <Item arrow extra={UserProfile.gender === 0 ? '男' : '女'}>
               性别
             </Item>
-            <Item arrow extra={'1999-9-9'}>
+            <Item arrow extra={UserProfile.birthday}>
               生日
             </Item>
           </List>
