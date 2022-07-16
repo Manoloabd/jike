@@ -6,14 +6,20 @@ import { getUserProfile } from '@/store/actions/profile'
 import { useInitialState } from '@/utils/use-initial-state'
 import EditInput from './components/EditInput'
 import { useState } from 'react'
+import { updataUserProfile } from '@/store/actions/profile'
+import { useDispatch } from 'react-redux'
 const Item = List.Item
 
 const ProfileEdit = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
   const { profile: UserProfile } = useInitialState(getUserProfile, 'profile')
   const [inputVisible, setInputVisible] = useState(false)
   const onInputHide = () => {
     setInputVisible(false)
+  }
+  const onSave = (name: string) => {
+    dispatch(updataUserProfile({ name }))
   }
   return (
     <div className={styles.root}>
@@ -84,7 +90,11 @@ const ProfileEdit = () => {
         </div>
       </div>
       <Popup visible={inputVisible} position='right'>
-        <EditInput value={UserProfile.name} onClose={onInputHide}></EditInput>
+        <EditInput
+          onUpdataName={onSave}
+          value={UserProfile.name}
+          onClose={onInputHide}
+        ></EditInput>
       </Popup>
     </div>
   )

@@ -4,14 +4,19 @@ import styles from './index.module.scss'
 type Props = {
   onClose: () => void
   value: string
+  onUpdataName: (name: string) => void
 }
-const EditInput = ({ onClose }: Props) => {
+const EditInput = ({ onClose, value, onUpdataName }: Props) => {
   const [inputValue, setInputValue] = useState('')
   return (
     <div className={styles.root}>
       <NavBar
         className='navbar'
-        right={<span className='commit-btn'>提交</span>}
+        right={
+          <span className='commit-btn' onClick={() => onUpdataName(inputValue)}>
+            提交
+          </span>
+        }
         onBack={onClose}
       >
         编辑昵称

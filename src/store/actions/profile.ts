@@ -1,6 +1,6 @@
 import { RootThunkAction } from '@/types/store'
 import { http } from '@/utils/http'
-import { UserResponse, UserProfileResponse } from '@/types/data'
+import { UserResponse, UserProfileResponse, UserProfile } from '@/types/data'
 // 做异步请求
 
 
@@ -23,5 +23,11 @@ export const getUserProfile = ():RootThunkAction => {
     return async dispatch => {
         const res = await http.get('/user/profile') as UserProfileResponse
         dispatch({type:'user/getprofile',payload:res.data})
+    }
+}
+
+export const updataUserProfile = (userProfile: Partial<UserProfile>): RootThunkAction => {
+    return async (dispatch) => {
+      await  http.patch("/user/profile", userProfile)
     }
 }
