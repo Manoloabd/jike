@@ -84,7 +84,7 @@ const ProfileEdit = () => {
         </div>
       </div>
       <Popup visible={inputVisible} position='right'>
-        <EditInput onClose={onInputHide}></EditInput>
+        <EditInput value={UserProfile.name} onClose={onInputHide}></EditInput>
       </Popup>
     </div>
   )

@@ -1,10 +1,12 @@
 import { Input, NavBar } from 'antd-mobile'
-
+import { useState } from 'react'
 import styles from './index.module.scss'
 type Props = {
-  onClose?: () => void
+  onClose: () => void
+  value: string
 }
 const EditInput = ({ onClose }: Props) => {
+  const [inputValue, setInputValue] = useState('')
   return (
     <div className={styles.root}>
       <NavBar
@@ -19,7 +21,11 @@ const EditInput = ({ onClose }: Props) => {
         <h3>昵称</h3>
 
         <div className='input-wrap'>
-          <Input placeholder='请输入' />
+          <Input
+            placeholder='请输入'
+            value={inputValue}
+            onChange={setInputValue}
+          />
         </div>
       </div>
     </div>
