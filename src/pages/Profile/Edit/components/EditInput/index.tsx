@@ -1,13 +1,16 @@
 import { Input, NavBar } from 'antd-mobile'
 
 import styles from './index.module.scss'
-
-const EditInput = () => {
+type Props = {
+  onClose?: () => void
+}
+const EditInput = ({ onClose }: Props) => {
   return (
     <div className={styles.root}>
       <NavBar
         className='navbar'
         right={<span className='commit-btn'>提交</span>}
+        onBack={onClose}
       >
         编辑昵称
       </NavBar>

@@ -12,6 +12,9 @@ const ProfileEdit = () => {
   const history = useHistory()
   const { profile: UserProfile } = useInitialState(getUserProfile, 'profile')
   const [inputVisible, setInputVisible] = useState(false)
+  const onInputHide = () => {
+    setInputVisible(false)
+  }
   return (
     <div className={styles.root}>
       <div className='content'>
@@ -81,7 +84,7 @@ const ProfileEdit = () => {
         </div>
       </div>
       <Popup visible={inputVisible} position='right'>
-        <EditInput></EditInput>
+        <EditInput onClose={onInputHide}></EditInput>
       </Popup>
     </div>
   )
