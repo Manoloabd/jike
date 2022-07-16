@@ -5,11 +5,13 @@ import styles from './index.module.scss'
 import { getUserProfile } from '@/store/actions/profile'
 import { useInitialState } from '@/utils/use-initial-state'
 import EditInput from './components/EditInput'
+import { useState } from 'react'
 const Item = List.Item
 
 const ProfileEdit = () => {
   const history = useHistory()
   const { profile: UserProfile } = useInitialState(getUserProfile, 'profile')
+  const [inputVisible, setInputVisible] = useState(false)
   return (
     <div className={styles.root}>
       <div className='content'>
@@ -37,7 +39,11 @@ const ProfileEdit = () => {
             >
               头像
             </Item>
-            <Item arrow extra={UserProfile.name}>
+            <Item
+              arrow
+              extra={UserProfile.name}
+              onClick={() => setInputVisible(true)}
+            >
               昵称
             </Item>
             <Item
@@ -74,7 +80,7 @@ const ProfileEdit = () => {
           <Button className='btn'>退出登录</Button>
         </div>
       </div>
-      <Popup visible position='right'>
+      <Popup visible={inputVisible} position='right'>
         <EditInput></EditInput>
       </Popup>
     </div>
