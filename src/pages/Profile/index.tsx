@@ -1,14 +1,13 @@
 import { Link, useHistory } from 'react-router-dom'
-
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 import { useInitialState } from '@/utils/use-initial-state'
 import { getUser } from '@/store/actions/profile'
-import type { User } from '@/types/data'
 
 const Profile = () => {
   const history = useHistory()
-  const { user: User } = useInitialState(getUser, 'profile') as { user: User }
+  const { user: User } = useInitialState(getUser, 'profile')
+  // 因为此时可以确认 profile是 rootState中一员 详细推导出了具体类型
   return (
     <div className={styles.root}>
       <div className='profile'>

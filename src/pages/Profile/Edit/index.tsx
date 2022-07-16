@@ -1,20 +1,15 @@
-import { Button, List, DatePicker, NavBar } from 'antd-mobile'
+import { Button, List, DatePicker, NavBar, Popup } from 'antd-mobile'
 import classNames from 'classnames'
 import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
 import { getUserProfile } from '@/store/actions/profile'
 import { useInitialState } from '@/utils/use-initial-state'
-import type { UserProfile } from '@/types/data'
+import EditInput from './components/EditInput'
 const Item = List.Item
 
 const ProfileEdit = () => {
   const history = useHistory()
-  const { profile: UserProfile } = useInitialState(
-    getUserProfile,
-    'profile'
-  ) as {
-    profile: UserProfile
-  }
+  const { profile: UserProfile } = useInitialState(getUserProfile, 'profile')
   return (
     <div className={styles.root}>
       <div className='content'>
@@ -79,6 +74,9 @@ const ProfileEdit = () => {
           <Button className='btn'>退出登录</Button>
         </div>
       </div>
+      <Popup visible position='right'>
+        <EditInput></EditInput>
+      </Popup>
     </div>
   )
 }
