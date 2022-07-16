@@ -28,6 +28,7 @@ export const getUserProfile = ():RootThunkAction => {
 
 export const updataUserProfile = (userProfile: Partial<UserProfile>): RootThunkAction => {
     return async (dispatch) => {
-      await  http.patch("/user/profile", userProfile)
+        await http.patch("/user/profile", userProfile)
+        dispatch({ type: 'user/updata', payload: userProfile })
     }
 }

@@ -19,4 +19,7 @@ export type UserAction = {
 } | {
     type: 'user/getprofile',
     payload: UserProfile
+} | {
+    type: 'user/updata',
+    payload:Partial<UserProfile>
 }

@@ -18,7 +18,9 @@ export default function profile (state = inititalState, action: UserAction):Uset
         case "user/getuser":
             return  {...state, user: action.payload}  // 相当于覆盖用户信息数据
         case "user/getprofile":
-            return {...state, profile: action.payload} //获取用户资料
+            return { ...state, profile: action.payload } //获取用户资料
+        case 'user/updata':
+            return {...state, profile:{...state.profile, ...action.payload}}
         default:
             return  state
 
