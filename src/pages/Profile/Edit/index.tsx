@@ -1,4 +1,12 @@
-import { Button, List, DatePicker, NavBar, Popup } from 'antd-mobile'
+import {
+  Button,
+  List,
+  DatePicker,
+  NavBar,
+  Popup,
+  Toast,
+  Dialog,
+} from 'antd-mobile'
 import classNames from 'classnames'
 import { useHistory } from 'react-router-dom'
 import styles from './index.module.scss'
@@ -15,11 +23,40 @@ const ProfileEdit = () => {
   const dispatch = useDispatch()
   const { profile: UserProfile } = useInitialState(getUserProfile, 'profile')
   const [inputVisible, setInputVisible] = useState(false)
+  //关闭修改窗口
   const onInputHide = () => {
     setInputVisible(false)
   }
-  const onSave = (name: string) => {
-    dispatch(updataUserProfile({ name }))
+  const onSave = async (name: string) => {
+    await dispatch(updataUserProfile({ name }))
+    Toast.show('更新成功啦')
+    //提交后关闭
+    onInputHide()
+  }
+
+  const logout = () => {
+    const handler = Dialog.show({
+      title: '提示',
+      content: '是否要退出吗',
+      actions: [
+        [
+          {
+            key: 'cancel',
+            text: '取消',
+            onClick: () => {
+              handler.close()
+            },
+          },
+          {
+            key: 'confirm',
+            text: '退出',
+            style: {
+              color: 'var(--adm-color-weak)',
+            },
+          },
+        ],
+      ],
+    })
   }
   return (
     <div className={styles.root}>
@@ -86,10 +123,12 @@ const ProfileEdit = () => {
         </div>
 
         <div className='logout'>
-          <Button className='btn'>退出登录</Button>
+          <Button className='btn' onClick={logout}>
+            退出登录
+          </Button>
         </div>
       </div>
-      <Popup visible={inputVisible} position='right'>
+      <Popup destroyOnClose visible={inputVisible} position='right'>
         <EditInput
           onUpdataName={onSave}
           value={UserProfile.name}
