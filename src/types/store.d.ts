@@ -9,9 +9,11 @@ export type RootThunkAction = ThunkAction<void, RootState, unknown, RootAction>
 
 export type RootAction = LoginAction | UserAction //所有action类型的集合
 
-export type LoginAction = {
+export type LoginAction = | {
     type: 'login/token',
     payload: Token
+} | {
+    type: 'login/logout'
 }
 export type UserAction = {
     type: 'user/getuser',

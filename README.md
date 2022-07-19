@@ -10,3 +10,7 @@
 在 types/store.d.ts 中，创建相应的 redux action 类型
 在 actions 中分发修改 redux 状态的 action
 在 reducers 中处理该 action，并将状态存储到 redux 中
+
+4. Edit index logout 命名重复出错
+
+5.

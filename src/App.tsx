@@ -4,7 +4,6 @@ import Layout from '@/pages/Layout'
 import Login from '@/pages/Login'
 import ProfileEdit from '@/pages/Profile/Edit'
 import { customHistory } from './utils/history'
-
 function App() {
   return (
     <Router history={customHistory}>
@@ -15,9 +14,12 @@ function App() {
             exact
             render={() => <Redirect to='/home'></Redirect>}
           ></Route>
+          {/* <Route path='/home' component={Layout}></Route> */}
           <Route path='/home' component={Layout}></Route>
           <Route path='/login' component={Login}></Route>
-          <Route path='/profile/edit' component={ProfileEdit}></Route>
+          <Route path='/profile/edit'>
+            <ProfileEdit></ProfileEdit>
+          </Route>
         </Switch>
       </div>
     </Router>

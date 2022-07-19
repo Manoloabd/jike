@@ -16,6 +16,7 @@ import EditInput from './components/EditInput'
 import { useState } from 'react'
 import { updataUserProfile } from '@/store/actions/profile'
 import { useDispatch } from 'react-redux'
+import { logout } from '@/store/actions/login'
 const Item = List.Item
 
 const ProfileEdit = () => {
@@ -34,7 +35,7 @@ const ProfileEdit = () => {
     onInputHide()
   }
 
-  const logout = () => {
+  const logoutFrom = () => {
     const handler = Dialog.show({
       title: '提示',
       content: '是否要退出吗',
@@ -52,6 +53,11 @@ const ProfileEdit = () => {
             text: '退出',
             style: {
               color: 'var(--adm-color-weak)',
+            },
+            onClick: () => {
+              dispatch(logout())
+              handler.close()
+              history.replace('/login')
             },
           },
         ],
@@ -123,7 +129,7 @@ const ProfileEdit = () => {
         </div>
 
         <div className='logout'>
-          <Button className='btn' onClick={logout}>
+          <Button className='btn' onClick={logoutFrom}>
             退出登录
           </Button>
         </div>

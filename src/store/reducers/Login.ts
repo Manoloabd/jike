@@ -9,6 +9,8 @@ export default function Login(state = initialState, action:LoginAction):Token {
     switch (action.type) {
         case "login/token":
             return action.payload
+        case "login/logout":
+            return {token:'123', refresh_token:'123'}
         default:
             return state
     }

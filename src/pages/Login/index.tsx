@@ -2,7 +2,7 @@ import { Button, NavBar, Form, Input, Toast } from 'antd-mobile'
 import { login } from '@/store/actions/login'
 import { LoginForm } from '@/types/data'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import styles from './index.module.scss'
 import { AxiosError } from 'axios'
 import { useState, useRef, useEffect } from 'react'
@@ -14,6 +14,7 @@ const Login = () => {
   const [form] = Form.useForm() // 直接使用useForm得到一个form实例对象
   const mobileRef = useRef<InputRef>(null) //如果不给泛型，传入的就是一个undifine
   const timeRef = useRef(-1) //用ref的current来记录计时器
+  const location = useLocation<{ from: string } | undefined>() // 获取当前路由信息
   const [timeLeft, setTimeLeft] = useState(0)
   const onFinish = async (values: LoginForm) => {
     // login()
@@ -25,7 +26,11 @@ const Login = () => {
         content: '登录成功',
         duration: 500,
         afterClose: () => {
-          history.replace('/home') // 调到主页
+          if (location.state) {
+            history.replace(location.state.from)
+            return
+          }
+          history.replace('/home/index') // 调到主页
         },
       })
     } catch (error) {
