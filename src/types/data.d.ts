@@ -43,3 +43,13 @@ export type UserProfile = {
     intro?: string
 }
 export type UserProfileResponse = ApiResponse<UserProfile>
+
+//频道
+export type Channel = {
+    id: number
+    name:string
+}
+export type UserChannel = {
+    channels:Array<Channel>
+}
+export type UserChannelResponse = ApiResponse<UserChannel>
