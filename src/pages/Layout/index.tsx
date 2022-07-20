@@ -9,6 +9,7 @@ import Home from '@/pages/Home'
 import Question from '@/pages/Question'
 import Video from '@/pages/Video'
 import Profile from '@/pages/Profile'
+import AuthRoute from '@/components/AuthRoute'
 
 const tabs = [
   { path: '/home/index', icon: 'iconbtn_home', text: '首页' },
@@ -37,9 +38,9 @@ const Layout = () => {
       <Route path='/home/video'>
         <Video></Video>
       </Route>
-      <Route path='/home/profile'>
+      <AuthRoute path='/home/profile'>
         <Profile></Profile>
-      </Route>
+      </AuthRoute>
 
       <TabBar
         activeKey={location.pathname}

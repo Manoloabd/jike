@@ -4,6 +4,7 @@ import Layout from '@/pages/Layout'
 import Login from '@/pages/Login'
 import ProfileEdit from '@/pages/Profile/Edit'
 import { customHistory } from './utils/history'
+import AuthRoute from './components/AuthRoute'
 function App() {
   return (
     <Router history={customHistory}>
@@ -12,14 +13,14 @@ function App() {
           <Route
             path='/'
             exact
-            render={() => <Redirect to='/home'></Redirect>}
+            render={() => <Redirect to='/home/index'></Redirect>}
           ></Route>
           {/* <Route path='/home' component={Layout}></Route> */}
           <Route path='/home' component={Layout}></Route>
           <Route path='/login' component={Login}></Route>
-          <Route path='/profile/edit'>
+          <AuthRoute path='/profile/edit'>
             <ProfileEdit></ProfileEdit>
-          </Route>
+          </AuthRoute>
         </Switch>
       </div>
     </Router>
