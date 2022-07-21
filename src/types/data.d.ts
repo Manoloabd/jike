@@ -53,3 +53,22 @@ export type UserChannel = {
     channels:Array<Channel>
 }
 export type UserChannelResponse = ApiResponse<UserChannel>
+
+// 定义文章列表的数据结构
+export type Articles = {
+    pre_timestamp: string
+    results: {
+      art_id: string
+      title: string
+      aut_id: string
+      aut_name: string
+      comm_count: number // 评论数量
+      pubdate: string
+      cover: {
+        type: number
+        images: string[]
+      }
+    }[]
+  }
+  // 定义接口返回类型
+  export type ArticlesResponse = ApiResponse<Articles>

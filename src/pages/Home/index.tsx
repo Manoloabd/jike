@@ -3,10 +3,10 @@ import { Tabs } from 'antd-mobile'
 import styles from './index.module.scss'
 import { useInitialState } from '@/utils/use-initial-state'
 import { getUserChannel } from '@/store/actions/home'
+import ArticleList from './components/ArticleList'
 
 const Home = () => {
   const { userChannels } = useInitialState(getUserChannel, 'home')
-  console.log(userChannels)
   return (
     <div className={styles.root}>
       {/* 频道 Tabs 列表 */}
@@ -14,7 +14,8 @@ const Home = () => {
         {userChannels.map((item) => {
           return (
             <Tabs.Tab title={item.name} key={item.id}>
-              {item.name}
+              {/* 放置文章列表 */}
+              <ArticleList channelId={item.id}></ArticleList>
             </Tabs.Tab>
           )
         })}
