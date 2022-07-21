@@ -10,16 +10,18 @@ const Home = () => {
   return (
     <div className={styles.root}>
       {/* 频道 Tabs 列表 */}
-      <Tabs className='tabs' activeLineMode='fixed'>
-        {userChannels.map((item) => {
-          return (
-            <Tabs.Tab title={item.name} key={item.id}>
-              {/* 放置文章列表 */}
-              <ArticleList channelId={item.id}></ArticleList>
-            </Tabs.Tab>
-          )
-        })}
-      </Tabs>
+      {userChannels.length > 0 && (
+        <Tabs className='tabs' activeLineMode='fixed'>
+          {userChannels.map((item) => {
+            return (
+              <Tabs.Tab title={item.name} key={item.id}>
+                {/* 放置文章列表 */}
+                <ArticleList channelId={item.id}></ArticleList>
+              </Tabs.Tab>
+            )
+          })}
+        </Tabs>
+      )}
       <div className='tabs-opration'>
         <Icon type='iconbtn_search' />
         <Icon type='iconbtn_channel' />
