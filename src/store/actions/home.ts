@@ -51,7 +51,6 @@ export const getArticleList = (channel_id:number,timestamp:string):RootThunkActi
         channel_id,timestamp
       }
     }) as ArticlesResponse
-    console.log(res);
-    
+    dispatch({type:'home/getChannelArtciles', payload:{channel_id, data:res.data}})
   }
 }

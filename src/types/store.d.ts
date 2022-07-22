@@ -1,7 +1,7 @@
 //处理redux相关的类型
 import store from '@/store'
 import { ThunkAction } from 'redux-thunk'
-import type { Token, User, UserProfile, Channel} from './data'
+import type { Token, User, UserProfile, Channel, Articles} from './data'
 
 export type RootState = ReturnType<typeof store.getState>
 
@@ -27,7 +27,15 @@ export type UserAction = {
     payload:Partial<UserProfile>
 }
 
-export type HomeAction = {
+export type HomeAction =
+| {
     type: 'home/getUserChannel',
     payload:Channel[]
+    }
+| {
+        type: 'home/getChannelArtciles'
+        payload: {
+            channel_id: number
+            data:Articles
+        }
 }
