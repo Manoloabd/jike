@@ -28,6 +28,7 @@ export default function Home(
         const {
           channel_id,
           data: { pre_timestamp, results },
+          actionType
         } = action.payload
         // 读取原来的参数
         const preArticles = state.channelArticles[channel_id]
@@ -40,7 +41,7 @@ export default function Home(
             ...state.channelArticles,
             [channel_id]: {
               pre_timestamp,
-              results: [...preArticles, ...results], //  results: [ 原来的数据 ,...results],
+              results: actionType === 'append' ? [...preArticles, ...results] : [...results], //  results: [ 原来的数据 ,...results],
             },
           },
         }

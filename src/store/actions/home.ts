@@ -44,13 +44,13 @@ export const getUserChannel = (): RootThunkAction => {
 }
 
 //获取用户频道文章数据的action
-export const getArticleList = (channel_id:number,timestamp:string):RootThunkAction => {
+export const getArticleList = (channel_id:number,timestamp:string, actionType:'append' | 'replace'):RootThunkAction => {
   return async (dispatch) => {
     const res = await http.get('/articles', {
       params: {
         channel_id,timestamp
       }
     }) as ArticlesResponse
-    dispatch({type:'home/getChannelArtciles', payload:{channel_id, data:res.data}})
+    dispatch({type:'home/getChannelArtciles', payload:{channel_id, data:res.data,actionType}})
   }
 }
