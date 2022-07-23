@@ -3,6 +3,17 @@ import classnames from 'classnames'
 import Icon from '@/components/Icon'
 
 import styles from './index.module.scss'
+import { useHistory } from 'react-router-dom'
+
+import dayjs from 'dayjs' // 引入主包
+
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+import 'dayjs/locale/zh-cn' // 引入语言包
+
+dayjs.locale('zh-cn') // 全局配置语言包
+
+dayjs.extend(relativeTime) // 集成时间到主包
 
 type Props = {
   /**
@@ -28,9 +39,15 @@ const ArticleItem = ({
   aut_name,
   comm_count,
   pubdate,
+  art_id,
 }: Props) => {
+  const history = useHistory() // 得到history对象
   return (
-    <div className={styles.root}>
+    // 跳转到文章详情
+    <div
+      className={styles.root}
+      onClick={() => history.push(`/article/${art_id}`)}
+    >
       <div
         className={classnames(
           'article-content',
@@ -57,7 +74,7 @@ const ArticleItem = ({
       >
         <span>{aut_name}</span>
         <span>{comm_count} 评论</span>
-        <span>{pubdate}</span>
+        <span>{dayjs().from(dayjs(pubdate))}</span>
         <span className='close'>
           <Icon type='iconbtn_essay_close' />
         </span>
