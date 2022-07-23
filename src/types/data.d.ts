@@ -71,4 +71,19 @@ export type Articles = {
     }[]
   }
   // 定义接口返回类型
-  export type ArticlesResponse = ApiResponse<Articles>
+export type ArticlesResponse = ApiResponse<Articles>
+  
+// 定义文章详情的结构
+export type ArticleInfo = {
+    art_id: string
+    title: string
+    pubdate: string
+    aut_id: string
+    aut_name: string
+    aut_photo: string
+    is_followed: boolean
+    attitude: number
+    content: string
+    is_collected: boolean
+  }
+  export type ArticleInfoResponse = ApiResponse<ArticleInfo>

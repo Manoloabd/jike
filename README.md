@@ -13,4 +13,4 @@
 
 4. Edit index logout 命名重复出错
 
-5.
+5.渲染数据过程（1）先写数据去 data.d.ts (2)去 store.d.ts 写动作类型 (3)去 reducer 合并类型 (4)去 action 写 （5）回到 reducer 写 swtich 和 case (6)回到主页面写 use。。
