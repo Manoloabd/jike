@@ -22,7 +22,7 @@ const ArticleList = ({ channelId }: Props) => {
   }
   // 此时可以保证pre_timestamp 至少有值
   // 当 pre_timestamp为空时, 不能再继续加载
-  const hasMore: boolean = !!pre_timestamp
+  const hasMore = !!pre_timestamp
 
   const loadMore = async () => {
     // 发起请求

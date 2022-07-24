@@ -9,10 +9,13 @@ import CommentFooter from './components/CommentFooter'
 import { useParams } from 'react-router-dom'
 import { getArticleInfo } from '@/store/actions/article'
 import { useInitialState } from '@/utils/use-initial-state'
-
+import { useEffect } from 'react'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import dompurify from 'dompurify'
+import highlight from 'highlight.js'
+import 'highlight.js/styles/vs2015.css'
+// 还需要引入highlight样式包
 dayjs.extend(LocalizedFormat) // 扩展转化方法
 const Article = () => {
   const history = useHistory()
@@ -24,6 +27,23 @@ const Article = () => {
   const loadMoreComments = async () => {
     console.log('加载更多评论')
   }
+  useEffect(() => {
+    if (detail.art_id) {
+      // 说明此时已经加载过文章详情了
+      // 通过dom寻找所有的 带pre code的节点
+      const dgHtmlDom = document.querySelector('.dg-html') // 获取对应的文本内容的dom
+      const codeList = dgHtmlDom?.querySelectorAll<HTMLElement>('pre code') // 确定要找的是HtmlElement
+      // 得到一个列表 有可能为空
+      if (codeList && codeList.length > 0) {
+        // 此时此刻表示 找到了 代码块
+        // 需要使用 highlight让每个代码块高亮
+        codeList.forEach((item) => {
+          // 使用highlight
+          highlight.highlightElement(item)
+        })
+      }
+    }
+  }, [detail])
   const {
     title,
     read_count,
