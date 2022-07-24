@@ -6,18 +6,18 @@ import styles from './index.module.scss'
 import Icon from '@/components/Icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getArticleInfo } from '@/store/actions/article'
+import { useInitialState } from '@/utils/use-initial-state'
 
 const Article = () => {
   const history = useHistory()
-  const dispatch = useDispatch()
   const params = useParams<{ articleId: string }>()
-  useEffect(() => {
-    dispatch(getArticleInfo(params.articleId))
-  }, [])
+  const { detail } = useInitialState(
+    () => getArticleInfo(params.articleId),
+    'article'
+  )
+  console.log('获取到的文章详情', detail)
   const loadMoreComments = async () => {
     console.log('加载更多评论')
   }

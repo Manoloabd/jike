@@ -85,5 +85,8 @@ export type ArticleInfo = {
     attitude: number
     content: string
     is_collected: boolean
+    read_count: number
+    like_count: number
+    comm_count:number
   }
   export type ArticleInfoResponse = ApiResponse<ArticleInfo>
