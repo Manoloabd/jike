@@ -12,7 +12,7 @@
     "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.7",
-    "dompurify": "^2.3.4",
+    "dompurify": "^2.3.10",
     "highlight.js": "^11.4.0",
     "history": "^4.10.1",
     "react": "^17.0.1",
