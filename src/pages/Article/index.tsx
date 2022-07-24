@@ -14,6 +14,7 @@ import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import dompurify from 'dompurify'
 import highlight from 'highlight.js'
+import ContentLoader from 'react-content-loader'
 import 'highlight.js/styles/vs2015.css'
 // 还需要引入highlight样式包
 dayjs.extend(LocalizedFormat) // 扩展转化方法
@@ -44,6 +45,25 @@ const Article = () => {
       }
     }
   }, [detail])
+
+  const showLoader = () => (
+    <ContentLoader
+      speed={2}
+      width={400}
+      height={360}
+      viewBox='0 0 400 360'
+      backgroundColor='#d56c6c'
+      foregroundColor='#ecebeb'
+    >
+      <rect x='59' y='123' rx='3' ry='3' width='88' height='6' />
+      <rect x='163' y='124' rx='3' ry='3' width='52' height='6' />
+      <rect x='12' y='221' rx='3' ry='3' width='410' height='6' />
+      <rect x='11' y='176' rx='3' ry='3' width='388' height='6' />
+      <rect x='27' y='67' rx='3' ry='3' width='178' height='6' />
+      <circle cx='30' cy='122' r='20' />
+      <rect x='14' y='265' rx='0' ry='0' width='387' height='7' />
+    </ContentLoader>
+  )
   const {
     title,
     read_count,
@@ -107,7 +127,10 @@ const Article = () => {
       </div>
     )
   }
-
+  if (!detail.art_id) {
+    // 如果当前没有id 表示表示加载数据 显示骨架屏
+    return showLoader()
+  }
   return (
     <div className={styles.root}>
       <div className='root-wrapper'>
