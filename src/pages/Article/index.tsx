@@ -16,15 +16,24 @@ import dompurify from 'dompurify'
 import highlight from 'highlight.js'
 import ContentLoader from 'react-content-loader'
 import 'highlight.js/styles/vs2015.css'
-// 还需要引入highlight样式包
+import { getCommments } from '@/store/actions/article'
+
+// 评论的类型 a(文章类型) / c(评论的评论)
+enum CommmentType {
+  Article = 'a',
+  Comment = 'c',
+}
 dayjs.extend(LocalizedFormat) // 扩展转化方法
 const Article = () => {
   const history = useHistory()
-  const params = useParams<{ articleId: string }>()
-  const { detail } = useInitialState(
-    () => getArticleInfo(params.articleId),
+  const { articleId } = useParams<{ articleId: string }>() // 获取路由参数对象
+  const { detail } = useInitialState(() => getArticleInfo(articleId), 'article') // 自定义hook调用文章详情
+  // 自定义hook调用评论  先获取对于文章的评论- 替换整个的评论数据
+  const { comment } = useInitialState(
+    () => getCommments(CommmentType.Article, articleId, null, 'replace'),
     'article'
   )
+  console.log(comment) // 只是完成了一屏 的加载
   highlight.configure({
     ignoreUnescapedHTML: true,
   })
