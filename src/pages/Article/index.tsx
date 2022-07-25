@@ -25,6 +25,9 @@ const Article = () => {
     () => getArticleInfo(params.articleId),
     'article'
   )
+  highlight.configure({
+    ignoreUnescapedHTML: true,
+  })
   const loadMoreComments = async () => {
     console.log('加载更多评论')
   }
