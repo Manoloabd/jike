@@ -17,7 +17,7 @@ import highlight from 'highlight.js'
 import ContentLoader from 'react-content-loader'
 import 'highlight.js/styles/vs2015.css'
 import { getCommments } from '@/store/actions/article'
-
+import NoneComment from '@/pages/Article/components/NoneComment' // 无评论时的显示组件
 // 评论的类型 a(文章类型) / c(评论的评论)
 enum CommmentType {
   Article = 'a',
@@ -33,7 +33,6 @@ const Article = () => {
     () => getCommments(CommmentType.Article, articleId, null, 'replace'),
     'article'
   )
-  console.log(comment) // 只是完成了一屏 的加载
   highlight.configure({
     ignoreUnescapedHTML: true,
   })
@@ -114,6 +113,7 @@ const Article = () => {
           </div>
 
           <div className='content'>
+            {/* 完成富文本内容的消毒 */}
             <div
               className='content-html dg-html'
               dangerouslySetInnerHTML={{ __html: dompurify.sanitize(content) }}
@@ -129,12 +129,19 @@ const Article = () => {
             <span>全部评论（{comm_count}）</span>
             <span>{like_count} 点赞</span>
           </div>
-
-          <div className='comment-list'>
-            <CommentItem />
-
-            <InfiniteScroll hasMore={false} loadMore={loadMoreComments} />
-          </div>
+          {/* 文章列表 */}
+          {comment.results.length > 0 ? (
+            <div className='comment-list'>
+              {/* 渲染评论列表 */}
+              {comment.results.map((item) => {
+                // 将所有的属性全部传过去
+                return <CommentItem key={item.com_id} {...item} />
+              })}
+              <InfiniteScroll hasMore={false} loadMore={loadMoreComments} />
+            </div>
+          ) : (
+            <NoneComment />
+          )}
         </div>
       </div>
     )
