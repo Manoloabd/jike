@@ -48,4 +48,7 @@ export type articleAction = {
 } | {
     type: 'article/getArticleComments'
     payload: ArticleComment & { actionType:'replace' | 'append'}
-}
+} | {
+    type: "article/addArticleComment"
+    payload: ArtComment // 要将最新发表的数据添加到评论的头部
+  }

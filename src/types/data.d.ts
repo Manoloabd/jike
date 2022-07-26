@@ -112,4 +112,11 @@ export type ArticleInfoResponse = ApiResponse<ArticleInfo>
     last_id: string | null // 当前页的最后一个id
     results: ArtComment[]
   }
-  export type ArticleCommentResponse = ApiResponse<ArticleComment>
+export type ArticleCommentResponse = ApiResponse<ArticleComment>
+export type AddArticleComment = {
+  target: string
+  com_id: string
+  new_obj: ArtComment
+}
+
+export type AddArticleResposnse = ApiResponse<AddArticleComment>

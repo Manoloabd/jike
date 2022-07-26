@@ -9,7 +9,8 @@ import CommentFooter from './components/CommentFooter'
 import { useParams } from 'react-router-dom'
 import { getArticleInfo } from '@/store/actions/article'
 import { useInitialState } from '@/utils/use-initial-state'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import dompurify from 'dompurify'
@@ -19,6 +20,7 @@ import 'highlight.js/styles/vs2015.css'
 import { getCommments } from '@/store/actions/article'
 import NoneComment from '@/pages/Article/components/NoneComment' // 无评论时的显示组件
 import CommentInput from './components/CommentInput'
+import { AddArticleComment } from '@/store/actions/article'
 
 // 评论的类型 a(文章类型) / c(评论的评论)
 enum CommmentType {
@@ -27,6 +29,7 @@ enum CommmentType {
 }
 dayjs.extend(LocalizedFormat) // 扩展转化方法
 const Article = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const { articleId } = useParams<{ articleId: string }>() // 获取路由参数对象
   const { detail } = useInitialState(() => getArticleInfo(articleId), 'article') // 自定义hook调用文章详情
@@ -36,12 +39,15 @@ const Article = () => {
     'article'
   )
   const [commentVisible, setCommentVisible] = useState(false)
+  const [showComment, setShowComment] = useState(false) // 用来控制是否显示评论区内容
+  const wrapperRef = useRef<HTMLDivElement>(null) // 得到一个ref对象
   highlight.configure({
     ignoreUnescapedHTML: true,
   })
   const loadMoreComments = async () => {
     console.log('加载更多评论')
   }
+
   useEffect(() => {
     if (detail.art_id) {
       // 说明此时已经加载过文章详情了
@@ -78,6 +84,35 @@ const Article = () => {
       <rect x='14' y='265' rx='0' ry='0' width='387' height='7' />
     </ContentLoader>
   )
+
+  // 此方法负责定位滚动评论区
+  const onScrollTop = () => {
+    if (wrapperRef.current) {
+      // 此时需要确定 滚动 滚动条
+      if (showComment) {
+        // 表示当前是显示 评论的 , 要去隐藏 将滚动条滚动到头部
+        // wrapperRef.current
+        // 流程控制分析
+        wrapperRef.current.scrollTop = 0 // 滚动到最上方
+      } else {
+        // 此时表示不显示评论 要去显示  将滚动条滚动到固定位置
+        const contentDom =
+          wrapperRef.current.querySelector<HTMLDivElement>('.article-wrapper')
+        // wrapperRef.current.scrollTop = 0 // 滚动到最上方
+        if (contentDom) {
+          wrapperRef.current.scrollTop = contentDom.offsetHeight + 45 // 将评论区滚出页面
+        }
+      }
+      setShowComment(!showComment) // 切换当前的状态
+    }
+  }
+  //发表评论
+  const publishComment = async (content: string) => {
+    await dispatch(AddArticleComment(articleId, content))
+    //成功后关闭
+    setCommentVisible(false)
+  }
+
   const {
     title,
     read_count,
@@ -92,7 +127,7 @@ const Article = () => {
   const renderArticle = () => {
     // 文章详情
     return (
-      <div className='wrapper'>
+      <div className='wrapper' ref={wrapperRef}>
         <div className='article-wrapper'>
           <div className='header'>
             <h1 className='title'>{title}</h1>
@@ -152,9 +187,17 @@ const Article = () => {
   //生成平路弹层
   const renderCommentPopup = () => {
     return (
-      <Popup className='reply-popup' position='right' visible={commentVisible}>
+      <Popup
+        destroyOnClose
+        className='reply-popup'
+        position='right'
+        visible={commentVisible}
+      >
         <div className='comment-popup-wrapper'>
-          <CommentInput onClose={() => setCommentVisible(false)}></CommentInput>
+          <CommentInput
+            onAddComment={publishComment}
+            onClose={() => setCommentVisible(false)}
+          ></CommentInput>
         </div>
       </Popup>
     )
@@ -189,7 +232,10 @@ const Article = () => {
         {/* 渲染评论弹层 */}
         {renderCommentPopup()}
         {/* 底部评论栏 */}
-        <CommentFooter onCommentPopup={() => setCommentVisible(true)} />
+        <CommentFooter
+          onScrollTop={onScrollTop}
+          onCommentPopup={() => setCommentVisible(true)}
+        />
       </div>
     </div>
   )

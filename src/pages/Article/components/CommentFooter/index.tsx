@@ -6,9 +6,14 @@ type Props = {
   // reply 回复评论
   type?: 'normal' | 'reply'
   onCommentPopup: () => void
+  onScrollTop: () => void
 }
 
-const CommentFooter = ({ type = 'normal', onCommentPopup }: Props) => {
+const CommentFooter = ({
+  type = 'normal',
+  onCommentPopup,
+  onScrollTop,
+}: Props) => {
   return (
     <div className={styles.root}>
       <div className='input-btn' onClick={onCommentPopup}>
@@ -18,7 +23,7 @@ const CommentFooter = ({ type = 'normal', onCommentPopup }: Props) => {
 
       {type === 'normal' && (
         <>
-          <div className='action-item'>
+          <div className='action-item' onClick={onScrollTop}>
             <Icon type='iconbtn_comment' />
             <p>评论</p>
             {!!1 && <span className='bage'>{1}</span>}
