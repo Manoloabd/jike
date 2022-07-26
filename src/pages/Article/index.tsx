@@ -1,4 +1,4 @@
-import { NavBar, InfiniteScroll } from 'antd-mobile'
+import { NavBar, InfiniteScroll, Popup } from 'antd-mobile'
 import { useHistory } from 'react-router-dom'
 import classNames from 'classnames'
 import styles from './index.module.scss'
@@ -9,7 +9,7 @@ import CommentFooter from './components/CommentFooter'
 import { useParams } from 'react-router-dom'
 import { getArticleInfo } from '@/store/actions/article'
 import { useInitialState } from '@/utils/use-initial-state'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import dompurify from 'dompurify'
@@ -18,6 +18,8 @@ import ContentLoader from 'react-content-loader'
 import 'highlight.js/styles/vs2015.css'
 import { getCommments } from '@/store/actions/article'
 import NoneComment from '@/pages/Article/components/NoneComment' // 无评论时的显示组件
+import CommentInput from './components/CommentInput'
+
 // 评论的类型 a(文章类型) / c(评论的评论)
 enum CommmentType {
   Article = 'a',
@@ -33,6 +35,7 @@ const Article = () => {
     () => getCommments(CommmentType.Article, articleId, null, 'replace'),
     'article'
   )
+  const [commentVisible, setCommentVisible] = useState(false)
   highlight.configure({
     ignoreUnescapedHTML: true,
   })
@@ -146,6 +149,16 @@ const Article = () => {
       </div>
     )
   }
+  //生成平路弹层
+  const renderCommentPopup = () => {
+    return (
+      <Popup className='reply-popup' position='right' visible={commentVisible}>
+        <div className='comment-popup-wrapper'>
+          <CommentInput onClose={() => setCommentVisible(false)}></CommentInput>
+        </div>
+      </Popup>
+    )
+  }
   if (!detail.art_id) {
     // 如果当前没有id 表示表示加载数据 显示骨架屏
     return showLoader()
@@ -173,9 +186,10 @@ const Article = () => {
         </NavBar>
         {/* 文章详情和评论 */}
         {renderArticle()}
-
+        {/* 渲染评论弹层 */}
+        {renderCommentPopup()}
         {/* 底部评论栏 */}
-        <CommentFooter />
+        <CommentFooter onCommentPopup={() => setCommentVisible(true)} />
       </div>
     </div>
   )

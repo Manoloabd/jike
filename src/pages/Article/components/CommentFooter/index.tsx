@@ -5,12 +5,13 @@ type Props = {
   // normal 普通评论
   // reply 回复评论
   type?: 'normal' | 'reply'
+  onCommentPopup: () => void
 }
 
-const CommentFooter = ({ type = 'normal' }: Props) => {
+const CommentFooter = ({ type = 'normal', onCommentPopup }: Props) => {
   return (
     <div className={styles.root}>
-      <div className='input-btn'>
+      <div className='input-btn' onClick={onCommentPopup}>
         <Icon type='iconbianji' />
         <span>抢沙发</span>
       </div>
